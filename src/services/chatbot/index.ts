@@ -38,7 +38,7 @@ export class ChatbotService {
       const response = await generateResponse(prompt);
 
       // Enviar respuesta por WhatsApp
-      await sendWhatsAppMessage(phoneNumber, response);
+      await sendWhatsAppMessage(phoneNumber, response.toString());
 
       return response;
     } catch (error) {
