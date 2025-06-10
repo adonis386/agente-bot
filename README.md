@@ -1,4 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Agente Bot
+
+Chatbot de WhatsApp usando Infobip y Gemini AI.
+
+## Tecnologías
+- Next.js
+- TypeScript
+- Infobip WhatsApp API
+- Google Gemini AI
+- LangChain
+
+## Configuración
+1. Clona el repositorio
+2. Instala las dependencias:
+```bash
+npm install
+```
+3. Crea un archivo `.env.local` con las siguientes variables:
+```
+INFOBIP_API_KEY=tu_api_key_de_infobip
+INFOBIP_BASE_URL=v38vpp.api.infobip.com
+GOOGLE_API_KEY=tu_api_key_de_gemini
+```
+
+## Desarrollo
+```bash
+npm run dev
+```
+
+## Despliegue
+El proyecto está configurado para ser desplegado en Vercel.
 
 ## Getting Started
 
