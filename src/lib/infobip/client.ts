@@ -43,6 +43,14 @@ export const sendWhatsAppMessage = async (to: string, message: string) => {
           to: to,
           content: {
             text: message
+          },
+          notifyUrl: `${process.env.VERCEL_URL || 'https://agente-4l5m6nqe4-adonis386s-projects.vercel.app/'}/api/webhook`,
+          callbackData: "Callback data",
+          urlOptions: {
+            shortenUrl: true,
+            trackClicks: true,
+            trackingUrl: `${process.env.VERCEL_URL || 'https://agente-4l5m6nqe4-adonis386s-projects.vercel.app/'}/api/tracking`,
+            removeProtocol: true
           }
         }]
       })
