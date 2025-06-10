@@ -24,9 +24,9 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { phoneNumber, message } = await request.json();
+    const { phoneNumber, message } = await req.json();
 
     if (!phoneNumber || !message) {
       return NextResponse.json(

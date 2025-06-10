@@ -20,7 +20,7 @@ export async function POST(request: Request) {
         const botResponse = await generateResponse(messageText);
         
         // Enviar respuesta por WhatsApp
-        await sendWhatsAppMessage(from, botResponse);
+        await sendWhatsAppMessage(from, botResponse.toString());
       }
     }
 
