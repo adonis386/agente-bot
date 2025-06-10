@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { checkWhatsAppNumberStatus, sendWhatsAppMessage } from '@/lib/infobip/client';
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     // Verificar el estado del número de WhatsApp
     const status = await checkWhatsAppNumberStatus();

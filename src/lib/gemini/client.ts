@@ -1,12 +1,14 @@
-import { GoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+if (!process.env.GOOGLE_API_KEY) {
+  throw new Error('GOOGLE_API_KEY is not defined in environment variables');
+}
+
 const model = new ChatGoogleGenerativeAI({
-  modelName: 'gemini-pro',
-  maxOutputTokens: 2048,
+  model: 'gemini-2.0-flash-lite',
   apiKey: process.env.GOOGLE_API_KEY,
 });
 
