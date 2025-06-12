@@ -2,26 +2,17 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-if (!process.env.INFOBIP_API_KEY) {
-  throw new Error('INFOBIP_API_KEY is not defined in environment variables');
+if (!process.env.WHATSAPP_TOKEN) {
+  throw new Error('WHATSAPP_TOKEN is not defined in environment variables');
 }
 
-if (!process.env.INFOBIP_BASE_URL) {
-  throw new Error('INFOBIP_BASE_URL is not defined in environment variables');
+if (!process.env.WHATSAPP_PHONE_NUMBER_ID) {
+  throw new Error('WHATSAPP_PHONE_NUMBER_ID is not defined in environment variables');
 }
 
-// Asegurarse de que la URL base tenga el protocolo HTTPS
-const baseUrl = process.env.INFOBIP_BASE_URL.startsWith('http') 
-  ? process.env.INFOBIP_BASE_URL 
-  : `https://${process.env.INFOBIP_BASE_URL}`;
-
-// ID del remitente de WhatsApp
-const WHATSAPP_SENDER_ID = '584123668513';
-
-// URL del webhook
-const WEBHOOK_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}/api/webhook`
-  : 'https://agente-bot.vercel.app/api/webhook';
+const WHATSAPP_API_VERSION = 'v17.0';
+const WHATSAPP_API_URL = `https://graph.facebook.com/${WHATSAPP_API_VERSION}`;
+const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
 
 export const sendWhatsAppMessage = async (to: string, message: string) => {
   try {
@@ -35,32 +26,24 @@ export const sendWhatsAppMessage = async (to: string, message: string) => {
       throw new Error('Message cannot be empty');
     }
 
-    console.log('Enviando mensaje a:', to);
-    console.log('Webhook URL:', WEBHOOK_URL);
+    // Remover el '+' del número de teléfono para la API de WhatsApp
+    const formattedNumber = to.replace('+', '');
 
-    const response = await fetch(`${baseUrl}/whatsapp/1/message/text`, {
+    console.log('Enviando mensaje a:', to);
+
+    const response = await fetch(`${WHATSAPP_API_URL}/${PHONE_NUMBER_ID}/messages`, {
       method: 'POST',
       headers: {
-        'Authorization': `App ${process.env.INFOBIP_API_KEY}`,
+        'Authorization': `Bearer ${process.env.WHATSAPP_TOKEN}`,
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
       },
       body: JSON.stringify({
-        messages: [{
-          from: WHATSAPP_SENDER_ID,
-          to: to,
-          content: {
-            text: message
-          },
-          notifyUrl: WEBHOOK_URL,
-          callbackData: "Callback data",
-          urlOptions: {
-            shortenUrl: true,
-            trackClicks: true,
-            trackingUrl: `${WEBHOOK_URL}/tracking`,
-            removeProtocol: true
-          }
-        }]
+        messaging_product: 'whatsapp',
+        to: formattedNumber,
+        type: 'text',
+        text: {
+          body: message
+        }
       })
     });
 
@@ -81,11 +64,10 @@ export const sendWhatsAppMessage = async (to: string, message: string) => {
 // Función para verificar el estado del número de WhatsApp
 export const checkWhatsAppNumberStatus = async () => {
   try {
-    const response = await fetch(`${baseUrl}/whatsapp/1/senders`, {
+    const response = await fetch(`${WHATSAPP_API_URL}/${PHONE_NUMBER_ID}`, {
       method: 'GET',
       headers: {
-        'Authorization': `App ${process.env.INFOBIP_API_KEY}`,
-        'Accept': 'application/json'
+        'Authorization': `Bearer ${process.env.WHATSAPP_TOKEN}`,
       }
     });
 

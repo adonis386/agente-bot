@@ -1,4 +1,4 @@
-import { sendWhatsAppMessage } from '@/lib/infobip/client';
+import { sendWhatsAppMessage } from '@/lib/whatsapp/client';
 import { generateResponse } from '@/lib/gemini/client';
 
 export class ChatbotService {
