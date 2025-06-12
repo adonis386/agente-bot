@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { checkWhatsAppNumberStatus, sendWhatsAppMessage } from '@/lib/infobip/client';
+import { checkWhatsAppNumberStatus, sendWhatsAppMessage } from '@/lib/whatsapp/client';
 
 export async function GET() {
   try {
